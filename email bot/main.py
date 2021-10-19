@@ -3,15 +3,25 @@ from ntpath import basename
 import archivos as ar
 import mail as mail
 
+try:
+    # Elimino el anterior log_error
+    ar.eliminar_log_error()
+    # Verifico y creo carpetas, ademas de los archivos
+    ar.verificacion_carpetas()
+    ar.verificacion_archivo()
+    # Declaro todos los parametros necesario para el envio del correo
+    datos = ar.read_json()
+    password = datos["password"]
+    remitente = datos["usuario"]
+    destinatario = "salestax@apple.com"
+    asunto = ""
+except Exception as ex:
+    print(f'{ex}' + '\n' + "Finalizando..." + '\n')
+    exit(1)
 
-# Declaro todos los parametros necesario para el envio del correo
-datos = ar.read_json()
-password = datos["password"]
-remitente = datos["usuario"]
-destinatario = "salestax@apple.com"
-asunto = ""
 
 def main():
+    
     # Inicio la conexion con el servidor outlook
     servidor = mail.ingreso_servidor(remitente, password)
 
@@ -19,13 +29,19 @@ def main():
     os.system('cls')
     print("                 ============ BOT - EMAIL TAX ============                 ")
     print("Aclaracion las fechas tienen que ser ingresadas en el siguiente formato AAAA-MM-DD")
-    inicio = input("Ingrese una fecha de inicio: ")
-    fin = input("Ingrese una fecha de fin: ")
 
-    listar_fechas = ar.listar_fechas(inicio,fin)
+    try:
+        inicio = input("Ingrese una fecha de inicio: ")
+        fin = input("Ingrese una fecha de fin: ")
+
+        lista_fechas = ar.listar_fechas(inicio,fin)
+    except:
+        print("Se han ingresado datos erroneos" + "\n" + "Finalizando...")
+        exit(1)
+
     
-    if listar_fechas:
-        rutas = ar.obtencion_archivos(listar_fechas)
+    if lista_fechas:
+        rutas = ar.obtencion_archivos(lista_fechas)
 
         for ruta in rutas:
             if rutas[ruta]:
