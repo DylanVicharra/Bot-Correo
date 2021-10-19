@@ -40,16 +40,14 @@ def download_path():
         if('download' in root.lower()):
             return root
 
-def obtencion_archivos(listado_fechas):
+def obtencion_archivos(nombre_carpeta):
     listado_carpeta = os.listdir(download_path())
     # Declaro una variable para guardar cada una de las carpetas que cumplen las condiciones de fecha
     carpetas = {}
     for carpeta in listado_carpeta:
-        for fecha in listado_fechas:
-            if fecha in carpeta:
-                carpetas[f'{download_path()}\\{carpeta}'] = os.listdir(f'{download_path()}\\{carpeta}')
-
-    return carpetas
+        if nombre_carpeta in carpeta:
+            carpetas[f'{download_path()}\\{carpeta}'] = os.listdir(f'{download_path()}\\{carpeta}')
+            return carpetas
 
 def listar_fechas(fecha_inicio, fecha_fin):
     fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d")

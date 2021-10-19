@@ -22,26 +22,22 @@ except Exception as ex:
 
 def main():
     
-    # Inicio la conexion con el servidor outlook
-    servidor = mail.ingreso_servidor(remitente, password)
-
     # Se pide la variables de busqueda 
     os.system('cls')
     print("                 ============ BOT - EMAIL TAX ============                 ")
-    print("Aclaracion las fechas tienen que ser ingresadas en el siguiente formato AAAA-MM-DD")
+    print("Aclaracion el nombre de la carpeta tiene que ser ingresada de en el siguiente formato 'AAAA-MM-DD-Nºcarpeta'")
 
     try:
-        inicio = input("Ingrese una fecha de inicio: ")
-        fin = input("Ingrese una fecha de fin: ")
-
-        lista_fechas = ar.listar_fechas(inicio,fin)
+        nombre_carpeta = input("Ingrese un nombre de carpeta: ")
     except:
         print("Se han ingresado datos erroneos" + "\n" + "Finalizando...")
         exit(1)
 
-    
-    if lista_fechas:
-        rutas = ar.obtencion_archivos(lista_fechas)
+    rutas = ar.obtencion_archivos(nombre_carpeta)
+
+    if rutas:
+        # Inicio la conexion con el servidor outlook
+        servidor = mail.ingreso_servidor(remitente, password)
 
         for ruta in rutas:
             if rutas[ruta]:
@@ -55,10 +51,13 @@ def main():
                     except:
                         ar.log_error(basename(ruta), archivo)
                         print(f"Archivo no enviado: {archivo} - Carpeta: {basename(ruta)}")
+            else:
+                print("La carpeta no contiene archivos")
     
-    
-    mail.finalizar_servidor(servidor)
-    
+        mail.finalizar_servidor(servidor)
+    else:
+        print("La carpeta no existe")
+
     print("Finalizando BOT - EMAIL TAX ...")
 
 if __name__ == "__main__":
