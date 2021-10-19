@@ -43,7 +43,7 @@ def main():
             if rutas[ruta]:
                 for archivo in rutas[ruta]:
                     try:
-                        correo = mail.crear_correo(remitente, destinatario, asunto)
+                        correo = mail.crear_correo(remitente, destinatario, asunto=str(archivo).replace("-invoice duplicate.pdf", "").strip())
                         correo = mail.adjuntar_archivo([f'{ruta}\\{archivo}', ar.archivo_fijo()], correo)
                         
                         mail.envio_correo(servidor, remitente, destinatario, correo)

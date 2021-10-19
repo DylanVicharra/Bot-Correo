@@ -56,6 +56,9 @@ def listar_fechas(fecha_inicio, fecha_fin):
     if fecha_inicio < fecha_fin:
         lista_fechas = [(fecha_inicio + timedelta(days=d)).strftime("%Y-%m-%d") for d in range((fecha_fin - fecha_inicio).days + 1)]
         return lista_fechas
+    elif fecha_fin == fecha_inicio:
+        lista_fechas = [fecha_inicio]
+        return lista_fechas
     else: 
         print("La fecha de inicio es una fecha mayor a la fecha final. Ingrese un intervalo de fechas correcta.")
         return False
