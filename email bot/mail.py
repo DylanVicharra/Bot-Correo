@@ -33,6 +33,7 @@ def ingreso_servidor(usuario, password):
     except Exception as e:
         print(e)
         print("Ha ocurrido un error con la conexion del servidor")
+        exit(1)
 
 
 def envio_correo(server, remitente, destinatario, correo):

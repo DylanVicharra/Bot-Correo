@@ -35,6 +35,10 @@ def main():
 
     rutas = ar.obtencion_archivos(nombre_carpeta)
 
+    # Creo un archivo excel donde guardar el informe
+    nombre_archivo = "Informe"
+    archivo_informe = ar.crear_archivo_excel(nombre_archivo)
+
     if rutas:
         # Inicio la conexion con el servidor outlook
         servidor = mail.ingreso_servidor(remitente, password)
@@ -47,13 +51,15 @@ def main():
                         correo = mail.adjuntar_archivo([f'{ruta}\\{archivo}', ar.archivo_fijo()], correo)
                         
                         mail.envio_correo(servidor, remitente, destinatario, correo)
+                        ar.escribir_excel(archivo_informe, str(archivo).replace("-invoice duplicate.pdf", "").replace("(1)", "").strip())
                         print(f"Se ha enviado correctamente el archivo {archivo}")
                     except:
                         ar.log_error(basename(ruta), archivo)
                         print(f"Archivo no enviado: {archivo} - Carpeta: {basename(ruta)}")
             else:
                 print("La carpeta no contiene archivos")
-    
+
+        ar.guardar_archivo_excel(archivo_informe, nombre_archivo)
         mail.finalizar_servidor(servidor)
     else:
         print("La carpeta no existe")
