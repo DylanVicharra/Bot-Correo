@@ -4,6 +4,7 @@ import openpyxl as op
 from datetime import datetime, timedelta, date
 from pathlib import Path
 
+
 src_path = Path(__file__).parent
 main_path = src_path.parents[1]
 data_path = src_path.parent / 'data'
@@ -24,14 +25,14 @@ def verificacion_carpetas():
         print("Carpetas creadas")
 
 def verificacion_archivo():
-    if os.path.exists(data_path / 'correo.json') and os.path.exists(data_path / 'Resale certificate Camlem 2021.pdf'):
-        print("Archivos 'correo.json' y 'Resale certificate Camlem 2021.pdf' se han encontrado")
+    if os.path.exists(data_path / 'correo.json') and os.path.exists(data_path / 'Resale certificate Camlem 2022.pdf'):
+        print("Archivos 'correo.json' y 'Resale certificate Camlem 2022.pdf' se han encontrado")
         return True
     else:
-        raise Exception(f"Archivos 'correo.json' o 'Resale certificate Camlem 2021.pdf' no encontrados en la carpeta {data_path}")
+        raise Exception(f"Archivos 'correo.json' o 'Resale certificate Camlem 2022.pdf' no encontrados en la carpeta {data_path}")
 
 def archivo_fijo(): 
-    ruta = data_path / 'Resale certificate Camlem 2021.pdf'
+    ruta = data_path / 'Resale certificate Camlem 2022.pdf'
     return ruta
 
 
